@@ -4,37 +4,43 @@ A Command Line Interface written in [Go](https://go.dev/) (with [Cobra](https://
 
 ## Usage
 
-As of now there is only one command `metar [options]` (see below for the list of options or you may use `metar --help`).
+As of now there is only one command `metar icaoCodes... [flags]`.
+
+### Flags
+- `--apiKey` (`-k`) mandatory, your CheckWX API key.
+- `--help` (`-h`)
+
+### Examples
 
 Lets say your are based in Montpellier, France (LFMT), you can retrieve the latest METAR and TAF with the following:
 ```bash
-> metar --apiKey abcdefghijklmno0123456789 --icaoCodes LFMT
+> metar LFMT --apiKey abcdefghijklmno0123456789
 
 Montpellier-Méditerranée Airport
-LFMT 070930Z AUTO 07005KT CAVOK 20/16 Q1025 NOSIG
-TAF LFMT 070800Z 0709/0809 03008KT 9999 FEW015 TEMPO 0721/0809 -SHRA FEW065TCU BKN070
+LFMT 301330Z AUTO 13006KT 9999 FEW015 BKN027 BKN032 21/19 Q1021 NOSIG
+TAF LFMT 300800Z 3009/3109 04008KT 9999 SCT015 BKN020 BECMG 3010/3012 12008KT TEMPO 3022/3109 3000 BR OVC005
 
 ```
 
-More useful, `icaoCodes` can take a list to get the weather of the surrounding airports or of the ones on your route. For example we plan to go from LFMT to LFNH:
+More useful, you can pass up-to 10 ICAO airport codes to get, for example, the weather of the surrounding airports or of the ones on your route:
 ```bash
-> metar --apiKey abcdefghijklmno0123456789 --icaoCodes LFMT,LFNG,LFTW,LFMV,LFNH
+> metar LFMT LFNG LFTW LFMV LFNH --apiKey abcdefghijklmno0123456789
 
 Montpellier-Méditerranée Airport
-LFMT 070930Z AUTO 07005KT CAVOK 20/16 Q1025 NOSIG
-TAF LFMT 070800Z 0709/0809 03008KT 9999 FEW015 TEMPO 0721/0809 -SHRA FEW065TCU BKN070
+LFMT 301330Z AUTO 13006KT 9999 FEW015 BKN027 BKN032 21/19 Q1021 NOSIG
+TAF LFMT 300800Z 3009/3109 04008KT 9999 SCT015 BKN020 BECMG 3010/3012 12008KT TEMPO 3022/3109 3000 BR OVC005
 
 Aérodrome de Montpellier - Candillargues
 -
 -
 
 Nîmes-Arles-Camargue Airport
-LFTW 070930Z AUTO 06005KT 020V110 CAVOK 21/16 Q1025 NOSIG
-TAF LFTW 070800Z 0709/0809 VRB04KT CAVOK TEMPO 0801/0809 RA SCT014 OVC060
+LFTW 301330Z AUTO 18008KT 160V230 9999 SCT025 23/16 Q1021 NOSIG
+TAF LFTW 300800Z 3009/3109 VRB02KT 9999 BKN019
 
 Avignon-Caumont Airport
-LFMV 070930Z AUTO VRB02KT 9999 FEW062 20/15 Q1025 NOSIG
-TAF LFMV 070800Z 0709/0809 VRB03KT CAVOK PROB30 TEMPO 0805/0809 RA FEW014 OVC080
+LFMV 301330Z AUTO 25006KT 220V280 CAVOK 25/13 Q1021 NOSIG
+TAF LFMV 300800Z 3009/3109 VRB02KT CAVOK TEMPO 3100/3106 0800 FG VV///
 
 Aérodrome de Carpentras
 -
@@ -43,10 +49,6 @@ Aérodrome de Carpentras
 ```
 
 LFNG (Candillargues) and LFNH (Carpentras) are small aerodrome without weather station, in this case the messages are replaced with a simple dash (`-`).
-
-### Options
-- `--apiKey` (`-k`) mandatory, your CheckWX API key.
-- `--icaoCodes` (`-c`) mandatory, a list of ICAO airport codes (4 letters) separated by a comma.
 
 ## License
 [MIT](./LICENSE)

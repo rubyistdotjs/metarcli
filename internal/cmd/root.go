@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/rubyistdotjs/metarcli/internal/checkwxapi"
@@ -10,14 +11,15 @@ import (
 
 func NewRootCmd() *cobra.Command {
 	var apiKey string
-	var icaoCodes []string
 
 	rootCmd := &cobra.Command{
-		Use:   "metar",
-		Short: "TBD",
-		Long:  "TBD",
+		Use:   "metar icaoCodes...",
+		Short: "Retrieve the latest METAR and TAF",
+		Long:  "Retrieve the latest METAR and TAF messages for one or multiple airports",
+		Args:  cobra.MatchAll(cobra.RangeArgs(1, 10), validateArgs),
 		Run: func(cmd *cobra.Command, args []string) {
 			cwxClient := checkwxapi.New(cmd.Context(), apiKey)
+			icaoCodes := formatArgs(args)
 
 			wg := sync.WaitGroup{}
 			wg.Add(3)
@@ -72,8 +74,25 @@ func NewRootCmd() *cobra.Command {
 	rootCmd.Flags().StringVarP(&apiKey, "apiKey", "k", "", "CheckWX API key")
 	rootCmd.MarkFlagRequired("apiKey")
 
-	rootCmd.Flags().StringSliceVarP(&icaoCodes, "icaoCodes", "c", []string{""}, "ICAO airport codes of which you wish to view the weather information")
-	rootCmd.MarkFlagRequired("icaoCodes")
-
 	return rootCmd
+}
+
+func validateArgs(cmd *cobra.Command, args []string) error {
+	for _, arg := range args {
+		if len(arg) != 4 {
+			return fmt.Errorf("invalid argument %q. Expected an ICAO airport code (4 letters)", arg)
+		}
+	}
+
+	return nil
+}
+
+func formatArgs(args []string) []string {
+	icaoCodes := make([]string, len(args))
+
+	for i, arg := range args {
+		icaoCodes[i] = strings.ToUpper(arg)
+	}
+
+	return icaoCodes
 }
