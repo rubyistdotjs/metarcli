@@ -13,7 +13,7 @@ func NewRootCmd() *cobra.Command {
 	var apiKey string
 
 	rootCmd := &cobra.Command{
-		Use:   "metar icaoCodes...",
+		Use:   "metarcli icaoCodes...",
 		Short: "Retrieve the latest METAR and TAF",
 		Long:  "Retrieve the latest METAR and TAF messages for one or multiple airports",
 		Args:  cobra.MatchAll(cobra.RangeArgs(1, 10), validateArgs),

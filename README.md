@@ -2,9 +2,15 @@
 
 A Command Line Interface written in [Go](https://go.dev/) (with [Cobra](https://github.com/spf13/cobra)) that displays the latest METAR and TAF messages for one or multiple airports using the [CheckWX API](https://www.checkwxapi.com/).
 
+## Installation
+
+```
+go install github.com/rubyistdotjs/metarcli@latest
+```
+
 ## Usage
 
-As of now there is only one command `metar icaoCodes... [flags]`.
+As of now there is only one command `metarcli icaoCodes... [flags]`.
 
 ### Flags
 - `--apiKey` (`-k`) mandatory, your CheckWX API key.
@@ -14,7 +20,7 @@ As of now there is only one command `metar icaoCodes... [flags]`.
 
 Lets say your are based in Montpellier, France (LFMT), you can retrieve the latest METAR and TAF with the following:
 ```bash
-> metar LFMT --apiKey abcdefghijklmno0123456789
+> metarcli LFMT --apiKey abcdefghijklmno0123456789
 
 Montpellier-Méditerranée Airport
 LFMT 301330Z AUTO 13006KT 9999 FEW015 BKN027 BKN032 21/19 Q1021 NOSIG
@@ -24,7 +30,7 @@ TAF LFMT 300800Z 3009/3109 04008KT 9999 SCT015 BKN020 BECMG 3010/3012 12008KT TE
 
 More useful, you can pass up-to 10 ICAO airport codes to get, for example, the weather of the surrounding airports or of the ones on your route:
 ```bash
-> metar LFMT LFNG LFTW LFMV LFNH --apiKey abcdefghijklmno0123456789
+> metarcli LFMT LFNG LFTW LFMV LFNH --apiKey abcdefghijklmno0123456789
 
 Montpellier-Méditerranée Airport
 LFMT 301330Z AUTO 13006KT 9999 FEW015 BKN027 BKN032 21/19 Q1021 NOSIG
